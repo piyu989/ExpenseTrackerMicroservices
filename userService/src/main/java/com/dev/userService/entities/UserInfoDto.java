@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,17 +19,27 @@ import javax.persistence.*;
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class UserInfoDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long userId;
     private String name;
     private String lastName;
     private String password;
     @JsonProperty("phone_no")
-    private long mobile;
+    private String mobile;
     @JsonProperty("username")
     private String username;
     private String profile;
+
+    UserInfo transformToUserInfo(){
+        return UserInfo.builder()
+                .userId(this.userId)
+                .name(this.name)
+                .lastName(this.lastName)
+                .password(this.password)
+                .mobile((this.mobile))
+                .username(this.username)
+                .profile(this.profile)
+                .build();
+    }
 
 
 }
