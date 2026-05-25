@@ -47,6 +47,32 @@ services:
     volumes:
       - mysql-db:/var/lib/mysql
     
+  user:
+    image: users
+    container_name: user-service
+    networks:
+      - test-network
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      
+  tracker:
+    image: tracker
+    container_name: tracker-service
+    networks:
+      - test-network
+    depends_on:
+      - kafka
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker  
+
 volumes:
   mysql-db:
     driver: local
